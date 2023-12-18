@@ -81,6 +81,7 @@ public class GraphReader {
 		/* Récupération de la géométrie dans le sens direct */
 		LineString geometry = toLineString(feature);
 
+
 		/* Création ou récupération des sommets initiaux et finaux */
 		Vertex source = graph.getOrCreateVertex(geometry.getStartPoint().getCoordinate());
 		Vertex target = graph.getOrCreateVertex(geometry.getEndPoint().getCoordinate());
@@ -91,10 +92,12 @@ public class GraphReader {
 		/* Création de l'arc pour le parcours en sens direct */
 		if (sens.equals(DOUBLE_SENS) || sens.equals(SENS_DIRECT)) {
 			Edge directEdge = graph.createEdge(source, target, id + "-direct");
+			directEdge.setGeometry(geometry);
 		}
 		if (sens.equals(DOUBLE_SENS) || sens.equals(SENS_INVERSE)) {
 			/* Création de l'arc pour le parcours en sens opposé */
-			Edge directEdge = graph.createEdge(target, source, id + "-reverse");
+			Edge reverseEdge = graph.createEdge(target, source, id + "-reverse");
+			reverseEdge.setGeometry(geometry);
 		}
 	}
 
